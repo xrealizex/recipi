@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Recipi from './component/Recipi'
+import { Center, Box, CheckboxGroup, Text } from "@chakra-ui/react";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box mt="64px">
+      <Center>
+        <Box>
+          <Box mb="24px">
+            <Text fontSize="24px" fontWeight="bold">
+              料理一覧
+            </Text>
+          </Box>
+          <CheckboxGroup>
+            <Recipi title="カレー" />
+            <Recipi title="ラーメン" />
+            <Recipi title="オムライス" />
+          </CheckboxGroup>
+        </Box>
+      </Center>
+    </Box>
   );
-}
+};
 
 export default App;
