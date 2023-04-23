@@ -1,9 +1,12 @@
 version: "3.8"
+
 services:
   db:
     image: postgres
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - type: bind
+        source: ./tmp/db
+        target: /var/lib/postgresql/data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_PASSWORD=admin
@@ -25,7 +28,8 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile
     volumes:
-      - ./frontend:/frontend
-      - /frontend/node_modules
+      - type: bind
+        source: ./frontend
+        target: /frontend
     ports:
       - "3000:3000"
