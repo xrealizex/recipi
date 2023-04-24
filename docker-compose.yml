@@ -11,7 +11,7 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_PASSWORD=admin
     ports:
-      - "15432:5432"
+      - "5432:5432"
   api:
     build: ./backend/
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3010 -b '0.0.0.0'"
