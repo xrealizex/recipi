@@ -1,14 +1,15 @@
 import { Checkbox, Box, Text } from "@chakra-ui/react";
+import { RecipiType } from "../types/RecipiType";
 
 type Props = {
-  title: string
+  recipi: RecipiType;
 }
 
 const Recipi = (props: Props) => {
   return (
     <Box mb="16px">
       <Checkbox colorScheme="blue" size="lg">
-        <Text>{props.title}</Text>
+        <Text>{props.recipi.title}</Text>
       </Checkbox>
     </Box>
   )
