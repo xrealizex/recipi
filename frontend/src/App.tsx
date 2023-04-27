@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Recipi from './component/Recipi'
-import { 
+import {
   Flex,
   Center,
   Box,
@@ -26,12 +26,17 @@ const App = () => {
 
   const createRecipi = async () => {
     await axios.post("http://localhost:3010/recipis", {
-      title: inputRecipi.title, 
-      description: inputRecipi.description, 
-      category: inputRecipi.category, 
+      title: inputRecipi.title,
+      description: inputRecipi.description,
+      category: inputRecipi.category,
       easiness: inputRecipi.easiness
     });
     setInputRecipi({title: "", description: "", category: "", easiness: undefined});
+    fetch();
+  };
+
+  const destroyRecipi = async (id: number) => {
+    await axios.delete(`http://localhost:3010/recipis/${id}`);
     fetch();
   };
 
@@ -48,7 +53,7 @@ const App = () => {
           </Text>
           <CheckboxGroup>
             {recipis.map((recipe) => (
-              <Recipi key={recipe.id} recipi={recipe}  />
+              <Recipi key={recipe.id} recipi={recipe} destroyRecipi={destroyRecipi} />
             ))}
           </CheckboxGroup>
           <Stack mt="40px" spacing="24px">
