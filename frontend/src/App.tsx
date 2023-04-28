@@ -17,7 +17,7 @@ import { InputRecipiType } from "./types/InputRecipiType"
 
 const App = () => {
   const [recipis, setRecipis] = useState<RecipiType[]>([]);
-  const [inputRecipi, setInputRecipi] = useState<InputRecipiType>({title: "", description: "", category: "", easiness: undefined});
+  const [inputRecipi, setInputRecipi] = useState<InputRecipiType>({title: "", description: "", category: "", easiness: null});
 
   const fetch = async () => {
     const res = await axios.get<RecipiType[]>("http://localhost:3010/recipis");
@@ -31,13 +31,18 @@ const App = () => {
       category: inputRecipi.category,
       easiness: inputRecipi.easiness
     });
-    setInputRecipi({title: "", description: "", category: "", easiness: undefined});
+    setInputRecipi({title: "", description: "", category: "", easiness: null});
     fetch();
   };
 
   const destroyRecipi = async (id: number) => {
-    await axios.delete(`http://localhost:3010/recipis/${id}`);
-    fetch();
+    try {
+      const response = await axios.delete(`http://localhost:3010/recipis/${id}`);
+      console.log(response.data);
+      fetch();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -75,8 +80,8 @@ const App = () => {
             <Input
               type="number"
               placeholder="手軽さ (1 ~ 5)"
-              value={inputRecipi.easiness}
-              onChange={(e) => setInputRecipi({...inputRecipi, easiness: Number(e.target.value)})}
+              value={inputRecipi.easiness ?? ''}
+              onChange={(e) => setInputRecipi({...inputRecipi, easiness: e.target.value ? Number(e.target.value) : null})}
             />
             <Button colorScheme="teal" onClick={createRecipi}>
               献立を作成
