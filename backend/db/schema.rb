@@ -14,7 +14,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_043537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "recipis", force: :cascade do |t|
+  create_table "recipes", force: :cascade do |t|
     t.string "title", limit: 30, null: false
     t.text "description"
     t.string "category", null: false

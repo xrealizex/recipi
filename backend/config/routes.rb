@@ -3,5 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :recipis
+  get '/recipes/random', to: 'recipes#random'
+  resources :recipes
+  root to: 'recipes#index'
 end

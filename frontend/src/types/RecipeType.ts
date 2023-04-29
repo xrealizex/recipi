@@ -1,4 +1,4 @@
-export type RecipiType = {
+export type RecipeType = {
   id: number;
   title: string;
   description: string;
