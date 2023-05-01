@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 
@@ -21,6 +21,12 @@ export const RecipeDetail: React.FC = () => {
     fetchRecipe();
   }, [id]);
 
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   if (!recipe) {
     return <Text>Loading...</Text>;
   }
@@ -32,6 +38,9 @@ export const RecipeDetail: React.FC = () => {
       <Link to={`/recipes/${recipe.id}/edit`}>
         <Button mt={4} colorScheme="teal">
           Edit
+        </Button>
+        <Button mt={4} onClick={goBack} colorScheme="teal">
+          back
         </Button>
       </Link>
     </Box>

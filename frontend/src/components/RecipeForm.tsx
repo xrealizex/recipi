@@ -42,6 +42,10 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
     navigate("/");
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Box>
       <Heading>{isNew ? "Create New Recipe" : "Edit Recipe"}</Heading>
@@ -63,6 +67,9 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">
           {isNew ? "Create Recipe" : "Update Recipe"}
+        </Button>
+        <Button mt={4} onClick={goBack} colorScheme="teal">
+          back
         </Button>
       </Box>
     </Box>

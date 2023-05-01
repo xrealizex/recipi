@@ -27,18 +27,18 @@ export const RecipeList: React.FC = () => {
       <Heading>Recipes List</Heading>
       <VStack spacing={4}>
         {recipes.map((recipe) => (
-          <HStack key={recipe.id} justifyContent="space-between" w="100%" boxShadow="md" p={4} borderRadius="md">
-            <VStack alignItems="start" spacing={1}>
-              <Text fontWeight="bold">{recipe.title}</Text>
-              <Text>{recipe.description}</Text>
-            </VStack>
-            <Button as={Link} to={`/recipes/${recipe.id}`} colorScheme="teal">
-              View Details
-            </Button>
-          </HStack>
+        <HStack key={recipe.id} justifyContent="space-between" w="100%" boxShadow="md" p={4} borderRadius="md">
+          <VStack alignItems="start" spacing={1}>
+            <Text fontWeight="bold">{recipe.title}</Text>
+            <Text>{recipe.description}</Text>
+          </VStack>
+            <Link to={`/recipes/${recipe.id}`}>
+              <Button colorScheme="teal">View Details</Button>
+            </Link>
+        </HStack>
         ))}
       </VStack>
-      <Link to="/create">
+      <Link to="/recipes/new">
         <Button mt={4} colorScheme="teal">
           Create New Recipe
         </Button>

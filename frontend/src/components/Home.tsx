@@ -29,7 +29,7 @@ export const Home: React.FC = () => {
       <Link to="/recipes">
         <Button>View All Recipes</Button>
       </Link>
-      <Link to="/create">
+      <Link to="/recipes/new">
         <Button>Create New Recipe</Button>
       </Link>
     </Box>
