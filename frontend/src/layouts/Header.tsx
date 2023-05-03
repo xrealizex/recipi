@@ -6,6 +6,28 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { signOut } from "../lib/api/auth";
 import { AuthContext } from "../App";
 
+type SignOutButtonProps = {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+const SignOutButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
+  <Button colorScheme="white" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
+    Sign out
+  </Button>
+);
+
+const SignInButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
+  <Button colorScheme="teal" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
+    Sign in
+  </Button>
+);
+
+const SignUpButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
+  <Button colorScheme="teal" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
+    Sign Up
+  </Button>
+);
+
 export const Header: React.FC = () => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -31,45 +53,33 @@ export const Header: React.FC = () => {
     }
   };
 
-  const AuthButtons = () => {
-    if (!loading) {
-      if (isSignedIn) {
-        return (
-          <Button colorScheme="teal" variant="link" onClick={handleSignOut}>
-            Sign out
-          </Button>
-        );
-      } else {
-        return (
-          <>
-            <Button colorScheme="teal" variant="link" onClick={() => navigate("/signin")}>
-              Sign in
-            </Button>
-            <Button colorScheme="teal" variant="link" onClick={() => navigate("/signup")}>
-              Sign Up
-            </Button>
-          </>
-        );
-      }
-    } else {
-      return <></>;
+  const renderAuthButtons = () => {
+    if (loading) {
+      return null;
     }
+    if (isSignedIn) {
+      return <SignOutButton onClick={handleSignOut} />;
+    }
+    return null;
   };
 
   return (
     <Box bg="teal.500" color="white" px={4}>
       <Flex h="4rem" alignItems="center">
-        <IconButton
-          aria-label="Menu"
-          size="md"
-          icon={<HamburgerIcon />}
-          mr={4}
-          onClick={() => {}}
-        />
+      <IconButton
+        aria-label="Menu"
+        size="md"
+        icon={<HamburgerIcon />}
+        color="white"
+        backgroundColor="transparent"
+        _hover={{ backgroundColor: "teal.300" }}
+        mr={4}
+        onClick={() => {}}
+      />
         <Link href="/" color="white" fontWeight="bold" fontSize="xl" mr="auto">
-          Sample
+          こんだてChoice!
         </Link>
-        <AuthButtons />
+        {renderAuthButtons()}
       </Flex>
     </Box>
   );

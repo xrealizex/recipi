@@ -9,6 +9,7 @@ import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { getCurrentUser } from './lib/api/auth';
 import { User } from "./types/UserType"
+import { CommonLayout } from './layouts/CommonLayout';
 
 // グローバルで扱う変数・関数
 export const AuthContext = createContext({} as {
@@ -55,17 +56,17 @@ const App = () => {
   return (
     <Router>
       <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
-      <Routes>
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<RecipeList />} />
-        <Route path="/recipes/new" element={<RecipeForm />} />
-        <Route path="/recipes/:id" element={<RecipeDetail />} />
-        <Route path="/recipes/:id/edit" element={<RecipeForm />} />
-        <Route path="/private" element={<Private />} /> */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-      </Routes>
+        <CommonLayout>
+          <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/recipes" element={<RecipeList />} />
+          <Route path="/recipes/new" element={<RecipeForm />} />
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/recipes/:id/edit" element={<RecipeForm />} />
+          </Routes>
+        </CommonLayout>
       </AuthContext.Provider>
     </Router>
   );
