@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
-import { RecipeType } from "../types/RecipeType";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
+// とりあえず認証済みユーザーの名前やメールアドレスを表示
 export const Home: React.FC = () => {
-  const [randomRecipe, setRandomRecipe] = useState<RecipeType | null>(null);
-
-  const fetchRandomRecipe = async () => {
-    const response = await axios.get<RecipeType>("http://localhost:3010/recipes/random");
-    setRandomRecipe(response.data);
-  };
+  const { loading, isSignedIn, currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchRandomRecipe();
-  }, []);
+    if (!loading && !isSignedIn) {
+      navigate("/signin");
+    }
+  }, [loading, isSignedIn, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Box>
-      <Heading>Today's Recipe</Heading>
-      {randomRecipe && (
+    <>
+      {isSignedIn && currentUser ? (
         <>
-          <Text>{randomRecipe.title}</Text>
-          <Text>{randomRecipe.description}</Text>
+          <h1>Signed in successfully!</h1>
+          <h2>Email: {currentUser?.email}</h2>
+          <h2>Name: {currentUser?.name}</h2>
         </>
+      ) : (
+        <h1>Not signed in</h1>
       )}
-      <Button onClick={fetchRandomRecipe}>Get Another Recipe</Button>
-      <Link to="/recipes">
-        <Button>View All Recipes</Button>
-      </Link>
-      <Link to="/recipes/new">
-        <Button>Create New Recipe</Button>
-      </Link>
-    </Box>
+    </>
   );
 };
