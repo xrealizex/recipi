@@ -1,18 +1,31 @@
 class RecipesController < ApplicationController
   def index
-    recipes = Recipe.all
+    recipes = current_api_v1_user.recipes
     render json: recipes
   end
 
   def create
-    Recipe.create(recipe_params)
-    head :created
+    recipe = current_api_v1_user.recipes.build(recipe_params)
+    if recipe.save
+      render json: recipe, status: :created
+    else
+      render json: recipe.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    recipe = current_api_v1_user.recipes.find(params[:id])
+    if recipe.update(recipe_params)
+      render json: recipe
+    else
+      render json: recipe.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    recipe = Recipe.find(params[:id])
+    recipe = current_api_v1_user.recipes.find(params[:id])
     recipe.destroy
-    head :ok
+    head :no_content
   end
 
   def random
@@ -21,7 +34,7 @@ class RecipesController < ApplicationController
   end
 
   def show
-    recipe = Recipe.find(params[:id])
+    recipe = current_api_v1_user.recipes.find(params[:id])
     render json: recipe
   end
 

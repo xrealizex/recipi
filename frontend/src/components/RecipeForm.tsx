@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie"
 import {
   Box,
   Heading,
@@ -20,6 +21,29 @@ interface RecipeFormProps {
   };
 }
 
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:3010",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  const client = Cookies.get("_client");
+  const uid = Cookies.get("_uid");
+
+  if (token && client && uid) {
+    return {
+      "access-token": token,
+      client: client,
+      uid: uid,
+    };
+  } else {
+    return {};
+  }
+};
+
 export const RecipeForm: React.FC<RecipeFormProps> = ({
   isNew = true,
   initialValues = { title: "", description: "" },
@@ -30,16 +54,15 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isNew) {
-      await axios.post("http://localhost:3010/recipes", { title, description });
-    } else {
-      // Update the recipe with axios.put() if it's an edit form.
-      await axios.put(`http://localhost:3010/recipes/${initialValues.id}`, {
-        title,
-        description,
-      });
-    }
-    navigate("/");
+  const headers = getAuthHeaders();
+
+  if (isNew) {
+    await axiosInstance.post("/recipes", { title, description }, { headers });
+  } else {
+    // Update the recipe with axios.put() if it's an edit form.
+    await axiosInstance.put(`/recipes/${initialValues.id}`, { title, description }, { headers });
+  }
+  navigate("/");
   };
 
   const goBack = () => {
