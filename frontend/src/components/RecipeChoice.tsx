@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import {
   Box,
   Button,
@@ -10,20 +11,32 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { RecipeType } from "../types/RecipeType";
+import { AuthContext } from "../App";
 
 export const RecipeChoice: React.FC = () => {
   const [randomRecipe, setRandomRecipe] = useState<RecipeType | null>(null);
+  const { currentUser } = useContext(AuthContext);
 
   const fetchRandomRecipe = async () => {
-    const response = await axios.get<RecipeType>(
-      "http://localhost:3010/recipes/random"
-    );
-    setRandomRecipe(response.data);
+    if (currentUser) {
+      const accessToken = localStorage.getItem("token");
+      const client = Cookies.get("_client");
+      const uid = Cookies.get("_uid");
+
+      const response = await axios.get<RecipeType>(`http://localhost:3010/api/v1/users/${currentUser.id}/recipes/random`, {
+        headers: {
+          "access-token": accessToken,
+          client: client,
+          uid: uid,
+        },
+      });
+      setRandomRecipe(response.data);
+    }
   };
 
   useEffect(() => {
     fetchRandomRecipe();
-  }, []);
+  }, [currentUser]);
 
   return (
     <Box>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"
@@ -10,7 +10,9 @@ import {
   Input,
   Textarea,
   Button,
+  Select
 } from "@chakra-ui/react";
+import { AuthContext } from "../App";
 
 interface RecipeFormProps {
   isNew?: boolean;
@@ -18,6 +20,8 @@ interface RecipeFormProps {
     id?: number;
     title: string;
     description: string;
+    category: string;
+    easiness: number;
   };
 }
 
@@ -46,21 +50,27 @@ const getAuthHeaders = () => {
 
 export const RecipeForm: React.FC<RecipeFormProps> = ({
   isNew = true,
-  initialValues = { title: "", description: "" },
+  initialValues = { title: "", description: "", category: "", easiness: 1 },
 }) => {
   const [title, setTitle] = useState(initialValues.title);
   const [description, setDescription] = useState(initialValues.description);
+  const [category, setCategory] = useState(initialValues.category);
+  const [easiness, setEasiness] = useState(initialValues.easiness);
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   const headers = getAuthHeaders();
 
+  if (!currentUser) {
+    return;
+  }
+
   if (isNew) {
-    await axiosInstance.post("/recipes", { title, description }, { headers });
+    await axiosInstance.post(`/api/v1/users/${currentUser.id}/recipes`, { title, description, category, easiness }, { headers });
   } else {
-    // Update the recipe with axios.put() if it's an edit form.
-    await axiosInstance.put(`/recipes/${initialValues.id}`, { title, description }, { headers });
+    await axiosInstance.put(`/api/v1/users/${currentUser.id}/recipes/${initialValues.id}`, { title, description, category, easiness }, { headers });
   }
   navigate("/");
   };
@@ -87,6 +97,27 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+        </FormControl>
+        <FormControl id="category" mt={4}>
+            <FormLabel>Category</FormLabel>
+          <Input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </FormControl>
+        <FormControl id="easiness" mt={4}>
+          <FormLabel>Easiness (1-5)</FormLabel>
+          <Select
+            value={easiness}
+            onChange={(e) => setEasiness(parseInt(e.target.value))}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </Select>
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">
           {isNew ? "Create Recipe" : "Update Recipe"}

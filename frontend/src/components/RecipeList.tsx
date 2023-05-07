@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Heading, VStack, HStack, Text } from "@chakra-ui/react";
 import { RecipeType } from "../types/RecipeType";
+import { AuthContext } from "../App";
+import Cookies from "js-cookie"
 
 export const RecipeList: React.FC = () => {
+  const { currentUser } = useContext(AuthContext);
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
 
+  // const fetchRecipes = async () => {
+  //   const response = await axios.get<RecipeType[]>("http://localhost:3010/recipes");
+  //   setRecipes(response.data);
+  //   console.log("recipeList")
+  // };
   const fetchRecipes = async () => {
-    const response = await axios.get<RecipeType[]>("http://localhost:3010/recipes");
-    setRecipes(response.data);
+    if (currentUser) {
+      const accessToken = localStorage.getItem("token");
+      const client = Cookies.get("_client");
+      const uid = Cookies.get("_uid");
+      const response = await axios.get<RecipeType[]>(`http://localhost:3010/api/v1/users/${currentUser.id}/recipes`, {
+      headers: {
+        "access-token": accessToken,
+        client: client,
+        uid: uid,
+      },
+    });
+      setRecipes(response.data);
+      console.log("recipeList");
+    } else {
+      setRecipes([]);
+    }
   };
 
   useEffect(() => {
     fetchRecipes();
-  }, []);
+  }, [currentUser]);
 
   const navigate = useNavigate();
 

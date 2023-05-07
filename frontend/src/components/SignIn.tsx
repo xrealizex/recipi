@@ -53,7 +53,7 @@ export const SignIn: React.FC = () => {
 
         navigate("/");
 
-        console.log("Signed in successfully!");
+        console.log("Signed in successfully!",`status:${res.status}`);
       } else {
         toast({
           title: "Error",

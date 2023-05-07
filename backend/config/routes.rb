@@ -9,9 +9,12 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: %i[index]
       end
+
+      resources :users do
+        get '/recipes/random', to: 'users/recipes#random'
+        resources :recipes, only: [:index, :show, :create], module: :users
+      end
     end
   end
   get '/recipes/random', to: 'recipes#random'
-  resources :recipes
-  root to: 'recipes#index'
 end

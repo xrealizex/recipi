@@ -40,6 +40,7 @@ export const Header: React.FC = () => {
         Cookies.remove("_access_token");
         Cookies.remove("_client");
         Cookies.remove("_uid");
+        localStorage.removeItem('token');
 
         setIsSignedIn(false);
         navigate("/signin");
