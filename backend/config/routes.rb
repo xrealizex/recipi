@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
       resources :users do
         get '/recipes/random', to: 'users/recipes#random'
-        resources :recipes, only: [:index, :show, :create], module: :users
+        resources :recipes, only: [:index, :show, :create, :destroy], module: :users
       end
     end
   end

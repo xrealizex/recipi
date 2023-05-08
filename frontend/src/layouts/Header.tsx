@@ -1,32 +1,13 @@
+//ライブラリ
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+//UI
 import { Box, Flex, IconButton, Button, Link } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+//関数
 import { signOut } from "../lib/api/auth";
 import { AuthContext } from "../App";
-
-type SignOutButtonProps = {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-};
-
-const SignOutButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
-  <Button colorScheme="white" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
-    Sign out
-  </Button>
-);
-
-const SignInButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
-  <Button colorScheme="teal" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
-    Sign in
-  </Button>
-);
-
-const SignUpButton: React.FC<SignOutButtonProps> = ({ onClick }) => (
-  <Button colorScheme="teal" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={onClick}>
-    Sign Up
-  </Button>
-);
 
 export const Header: React.FC = () => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
@@ -59,7 +40,11 @@ export const Header: React.FC = () => {
       return null;
     }
     if (isSignedIn) {
-      return <SignOutButton onClick={handleSignOut} />;
+      return (
+        <Button colorScheme="white" variant="link" color="white" backgroundColor="transparent" _hover={{ backgroundColor: "teal.300" }} onClick={handleSignOut}>
+          Sign out
+        </Button>
+      );
     }
     return null;
   };
