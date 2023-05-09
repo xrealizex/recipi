@@ -1,63 +1,47 @@
+//ライブラリ
 import React, { useState, useContext } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import {
-  Box,
-  VStack,
-  Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Text,
-  Link,
-  useToast
-} from "@chakra-ui/react";
+//UI
+import { Box, VStack, Heading, FormControl, FormLabel, Input, Button, Text, Link, useToast } from "@chakra-ui/react";
+//関数
 import { AuthContext } from "../App";
 import { signIn } from "../lib/api/auth";
 import { SignInParams } from "../types/SignInParamsType";
 
-// サインイン用ページ
 export const SignIn: React.FC = () => {
-  const navigate = useNavigate();
-
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-
+  //ステート
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  //関数
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const toast = useToast();
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
     const params: SignInParams = {
       email: email,
       password: password
     };
-
     try {
       const res = await signIn(params);
       console.log(res);
-
       if (res.status === 200) {
         // ログインに成功した場合はCookieに各値を格納
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
         Cookies.set("_uid", res.headers["uid"]);
-
         // トークンをlocalStorageに保存する
         localStorage.setItem('token', res.headers["access-token"]);
-
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
-
         navigate("/");
-
-        console.log("Signed in successfully!",`status:${res.status}`);
+        console.log("ログインに成功しました。");
       } else {
         toast({
           title: "Error",
-          description: "Invalid email or password",
+          description: "メールアドレスまたはパスワードが違います。",
           status: "error",
           duration: 5000,
           isClosable: true
@@ -67,7 +51,7 @@ export const SignIn: React.FC = () => {
       console.log(err);
       toast({
         title: "Error",
-        description: "Invalid email or password",
+        description: "メールアドレスまたはパスワードが違います。",
         status: "error",
         duration: 5000,
         isClosable: true
@@ -79,10 +63,10 @@ export const SignIn: React.FC = () => {
     <Box maxW="400px" mx="auto" mt={10}>
       <VStack spacing={5}>
         <Heading textAlign="center" size="lg">
-          Sign In
+          ログイン
         </Heading>
         <FormControl>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>メールアドレス</FormLabel>
           <Input
             type="email"
             value={email}
@@ -90,7 +74,7 @@ export const SignIn: React.FC = () => {
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Password</FormLabel>
+          <FormLabel>パスワード</FormLabel>
           <Input
             type="password"
             value={password}
@@ -103,12 +87,12 @@ export const SignIn: React.FC = () => {
           onClick={handleSubmit}
           isDisabled={!email || !password}
         >
-          Submit
+          ログイン
         </Button>
         <Text textAlign="center">
-          Don't have an account?{" "}
-          <Link as={RouterLink} to="/signup" textDecoration="underline">
-            Sign Up now!
+          アカウントをお持ちでなければ{" "}
+          <Link textDecoration="underline" onClick={() => navigate('/signup')}>
+            会員登録へ
           </Link>
         </Text>
       </VStack>

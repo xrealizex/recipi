@@ -1,17 +1,19 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, RouteProps } from 'react-router-dom';
+//ライブラリ
+import React, { useState, useEffect, createContext } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+//コンポーネント
 import { Home } from "./components/Home"
-import { RecipeChoice } from './components/RecipeChoice';
 import { RecipeList } from './components/RecipeList';
 import { RecipeForm } from './components/RecipeForm';
 import { RecipeDetail } from './components/RecipeDetail';
 import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
+import { CommonLayout } from './layouts/CommonLayout';
+//関数
 import { getCurrentUser } from './lib/api/auth';
 import { User } from "./types/UserType"
-import { CommonLayout } from './layouts/CommonLayout';
 
-// グローバルで扱う変数・関数
+// グローバルステート・関数
 export const AuthContext = createContext({} as {
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -22,12 +24,11 @@ export const AuthContext = createContext({} as {
 })
 
 const App = () => {
+  //ステート
   const [loading, setLoading] = useState<boolean>(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [currentUser, setCurrentUser] = useState<User | undefined>()
-
-  // 認証済みのユーザーがいるかどうかチェック
-  // 確認できた場合はそのユーザーの情報を取得
+  //関数
   const handleGetCurrentUser = async () => {
     try {
       // localStorageからトークンを取得する
@@ -45,10 +46,8 @@ const App = () => {
     } catch (err) {
       console.log(err)
     }
-
     setLoading(false)
   }
-
   useEffect(() => {
     handleGetCurrentUser()
   }, [])

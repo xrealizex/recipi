@@ -1,14 +1,11 @@
+//ライブラリ
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+//UI
+import { Box, CircularProgress, Flex, Text, useToast } from "@chakra-ui/react";
+//関数
 import { RecipeChoice } from "./RecipeChoice";
-import {
-  Box,
-  CircularProgress,
-  Flex,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { AuthContext } from "../App";
 
 export const Home: React.FC = () => {
   const { loading, isSignedIn, currentUser } = useContext(AuthContext);
@@ -48,12 +45,12 @@ export const Home: React.FC = () => {
       {isSignedIn && currentUser ? (
         <>
           <Flex justifyContent="flex-end" alignItems="center" p={2}>
-            <Text fontSize="sm">Name: {currentUser?.name}</Text>
+            <Text fontSize="sm" fontWeight="bold" color="teal.500">{currentUser?.name}の献立</Text>
           </Flex>
           <RecipeChoice />
         </>
       ) : (
-        <h1>Not signed in</h1>
+        <h1>ログインしてください。</h1>
       )}
     </>
   );
