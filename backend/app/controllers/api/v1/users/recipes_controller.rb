@@ -3,6 +3,7 @@ module Api
     module Users
       class RecipesController < ApplicationController
         before_action :authenticate_api_v1_user!
+        before_action :set_recipe, only: [:show, :update, :destroy]
 
         def index
           recipes = current_api_v1_user.recipes
@@ -19,17 +20,15 @@ module Api
         end
 
         def update
-          recipe = current_api_v1_user.recipes.find(params[:id])
-          if recipe.update(recipe_params)
-            render json: recipe
+          if @recipe.update(recipe_params)
+            render json: @recipe
           else
-            render json: recipe.errors, status: :unprocessable_entity
+            render json: @recipe.errors, status: :unprocessable_entity
           end
         end
 
         def destroy
-          recipe = current_api_v1_user.recipes.find(params[:id])
-          recipe.destroy
+          @recipe.destroy
           head :no_content
         end
 
@@ -39,14 +38,17 @@ module Api
         end
 
         def show
-          recipe = current_api_v1_user.recipes.find(params[:id])
-          render json: recipe
+          render json: @recipe
         end
 
         private
 
         def recipe_params
           params.permit(:title, :description, :category, :easiness)
+        end
+
+        def set_recipe
+          @recipe = current_api_v1_user.recipes.find(params[:id])
         end
       end
     end

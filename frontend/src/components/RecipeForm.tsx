@@ -13,7 +13,7 @@ type RecipeFormProps = {
   initialValues?: {
     id?: number;
     title: string;
-    description: string;
+    description?: string;
     category: string;
     easiness: number;
   };
