@@ -66,6 +66,9 @@ export const RecipeChoice: React.FC = () => {
           <Link to="/recipes/new">
             <Button colorScheme="blue">献立作成</Button>
           </Link>
+          <Link to="/favorites">
+            <Button colorScheme="blue">お気に入り一覧</Button>
+          </Link>
         </HStack>
       </VStack>
     </Box>

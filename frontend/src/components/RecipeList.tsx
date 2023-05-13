@@ -8,16 +8,9 @@ import { Box, Button, Heading, VStack, HStack, Text, IconButton } from "@chakra-
 import { StarIcon, CheckIcon } from "@chakra-ui/icons";
 //型
 import { RecipeType } from "../types/RecipeType";
+import { FavoriteType } from "../types/FavoriteType";
 //関数
 import { AuthContext } from "../App";
-
-type FavoriteType = {
-  id: number;
-  user_id: number;
-  recipe: RecipeType;
-  created_at: string;
-  updated_at: string;
-};
 
 export const RecipeList: React.FC = () => {
   const { currentUser } = useContext(AuthContext);

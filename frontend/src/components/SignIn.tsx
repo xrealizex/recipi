@@ -26,7 +26,6 @@ export const SignIn: React.FC = () => {
     };
     try {
       const res = await signIn(params);
-      console.log(res);
       if (res.status === 200) {
         // ログインに成功した場合はCookieに各値を格納
         Cookies.set("_access_token", res.headers["access-token"]);

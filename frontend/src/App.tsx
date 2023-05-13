@@ -6,6 +6,7 @@ import { Home } from "./components/Home"
 import { RecipeList } from './components/RecipeList';
 import { RecipeForm } from './components/RecipeForm';
 import { RecipeDetail } from './components/RecipeDetail';
+import { FavoritesList } from './components/FavoritesList';
 import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { CommonLayout } from './layouts/CommonLayout';
@@ -64,6 +65,7 @@ const App = () => {
           <Route path="/recipes/new" element={<RecipeForm />} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/recipes/:id/edit" element={<RecipeForm />} />
+          <Route path="/favorites" element={<FavoritesList />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
