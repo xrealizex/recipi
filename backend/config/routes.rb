@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :users do
         get '/recipes/random', to: 'users/recipes#random'
         resources :recipes, only: [:index, :show, :create, :destroy], module: :users
+        resources :favorites, only: [:index, :create, :destroy], module: :users
       end
     end
   end

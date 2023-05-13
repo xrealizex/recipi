@@ -4,15 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"
 //UI
-import { Box, Button, Heading, VStack, HStack, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, VStack, HStack, Text, IconButton } from "@chakra-ui/react";
+import { StarIcon, CheckIcon } from "@chakra-ui/icons";
 //型
 import { RecipeType } from "../types/RecipeType";
 //関数
 import { AuthContext } from "../App";
 
+type FavoriteType = {
+  id: number;
+  user_id: number;
+  recipe: RecipeType;
+  created_at: string;
+  updated_at: string;
+};
+
 export const RecipeList: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
+  const [favorites, setFavorites] = useState<FavoriteType[]>([]);
 
   const fetchAllRecipes = useCallback(async () => {
     if (!currentUser) {
@@ -62,6 +72,69 @@ export const RecipeList: React.FC = () => {
     fetchAllRecipes();
   }, [fetchAllRecipes]);
 
+  const fetchFavorites = useCallback(async () => {
+    if (!currentUser) {
+      console.log("ログインしてください。");
+      return;
+    }
+    const accessToken = localStorage.getItem("token");
+    const client = Cookies.get("_client");
+    const uid = Cookies.get("_uid");
+    const response = await axios.get<FavoriteType[]>(`http://localhost:3010/api/v1/users/${currentUser.id}/favorites`, {
+      headers: {
+        "access-token": accessToken,
+        client: client,
+        uid: uid,
+      },
+    });
+    setFavorites(response.data);
+    console.log("fetchFavorites!");
+  }, [currentUser])
+
+  const isFavorite = (recipeId: number) => {
+    return favorites.some(favorite => favorite.recipe.id === recipeId);
+  };
+
+  const handleFavorite = async (recipeId: number) => {
+    if (!currentUser) {
+      console.log("ログインしてください。");
+      return;
+    }
+    const accessToken = localStorage.getItem("token");
+    const client = Cookies.get("_client");
+    const uid = Cookies.get("_uid");
+    try {
+      if (isFavorite(recipeId)) {
+        await axios.delete(`http://localhost:3010/api/v1/users/${currentUser.id}/favorites/${recipeId}`, {
+          headers: {
+            "access-token": accessToken,
+            client: client,
+            uid: uid,
+          },
+        });
+        console.log("お気に入りから削除しました。")
+      } else {
+        await axios.post(`http://localhost:3010/api/v1/users/${currentUser.id}/favorites`, {
+          recipe_id: recipeId,
+        }, {
+          headers: {
+            "access-token": accessToken,
+            client: client,
+            uid: uid,
+          },
+        });
+        console.log("お気に入りに追加しました。")
+      }
+      fetchFavorites();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
+
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -108,6 +181,7 @@ export const RecipeList: React.FC = () => {
               <Button colorScheme="orange" onClick={() => deleteRecipe(recipe.id)}>
                 削除
               </Button>
+              <IconButton aria-label="Add to favorites" icon={isFavorite(recipe.id) ? <StarIcon /> : <CheckIcon />} onClick={() => handleFavorite(recipe.id)}/>
             </HStack>
           </Box>
         ))}
