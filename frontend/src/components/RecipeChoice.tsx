@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 //UI
-import { Box, Button, Heading, Text, VStack, HStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, SimpleGrid } from "@chakra-ui/react";
 //型
 import { RecipeType } from "../types/RecipeType"
 //関数
@@ -39,38 +39,42 @@ export const RecipeChoice: React.FC = () => {
 
   return (
     <Box>
-      <Heading mb={6} color="teal.500">今日の献立はこれ！</Heading>
-      <VStack spacing={6} align="start">
-        {randomRecipe && (
-          <Box
-            w="100%"
-            boxShadow="md"
-            p={6}
-            borderRadius="md"
-            bgColor="gray.100"
-          >
-            <VStack alignItems="start" spacing={4}>
-              <Text fontSize="2xl" fontWeight="bold" color="blue.700">
-                {randomRecipe.title}
+    <Heading mb={6} color="teal.500">今日の献立はこれ！</Heading>
+    <SimpleGrid columns={1} spacing={10}>
+      {randomRecipe && (
+        <Box boxShadow="lg" p="6" borderRadius="lg" bg="white" border="1px" borderColor="gray.200">
+          <Heading fontSize="2xl" fontWeight="bold" color="blue.700" textAlign="center">
+            {randomRecipe.title}
+          </Heading>
+          <VStack align="start" mt={4}>
+            <HStack>
+              <Text fontSize="sm" color="gray.600">
+                カテゴリー:{" "}
               </Text>
-            </VStack>
-          </Box>
-        )}
-        <HStack spacing={6}>
-          <Button colorScheme="blue" onClick={fetchRandomRecipe}>
-            他の献立にする
-          </Button>
-          <Link to="/recipes">
-            <Button colorScheme="blue">献立一覧</Button>
-          </Link>
-          <Link to="/recipes/new">
-            <Button colorScheme="blue">献立作成</Button>
-          </Link>
-          <Link to="/favorites">
-            <Button colorScheme="blue">お気に入り一覧</Button>
-          </Link>
-        </HStack>
-      </VStack>
-    </Box>
+              <Text fontSize="sm" fontWeight="semibold">
+                {randomRecipe.category}
+              </Text>
+            </HStack>
+            <HStack>
+              <Text fontSize="sm" color="gray.600">
+                手軽さ:{" "}
+              </Text>
+              <Text fontSize="sm" fontWeight="semibold">
+                {randomRecipe.easiness}
+              </Text>
+            </HStack>
+          </VStack>
+        </Box>
+      )}
+    </SimpleGrid>
+    <HStack spacing={6} mt={8}>
+      <Button colorScheme="teal" onClick={fetchRandomRecipe} size="lg">
+        他の献立にする
+      </Button>
+      <Link to="/recipes/new">
+        <Button colorScheme="teal" size="lg">献立作成</Button>
+      </Link>
+    </HStack>
+  </Box>
   );
 };

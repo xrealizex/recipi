@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie"
 //UI
 import { Box, Button, Heading, VStack, HStack, Text, IconButton } from "@chakra-ui/react";
-import { StarIcon, CheckIcon } from "@chakra-ui/icons";
+import { StarIcon } from "@chakra-ui/icons";
 //型
 import { RecipeType } from "../types/RecipeType";
 import { FavoriteType } from "../types/FavoriteType";
@@ -174,7 +174,7 @@ export const RecipeList: React.FC = () => {
               <Button colorScheme="orange" onClick={() => deleteRecipe(recipe.id)}>
                 削除
               </Button>
-              <IconButton aria-label="Add to favorites" icon={isFavorite(recipe.id) ? <StarIcon /> : <CheckIcon />} onClick={() => handleFavorite(recipe.id)}/>
+              <IconButton aria-label="Add to favorites" icon={isFavorite(recipe.id) ? <StarIcon color="red.500"/> : <StarIcon color="gray.500"/>} onClick={() => handleFavorite(recipe.id)}/>
             </HStack>
           </Box>
         ))}

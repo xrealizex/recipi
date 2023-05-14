@@ -6,7 +6,6 @@ type CommonLayoutProps = {
   children: ReactNode;
 };
 
-// 全てのページで共通となるレイアウト
 export const CommonLayout: React.FC<CommonLayoutProps> = ({ children }) => {
   return (
     <>

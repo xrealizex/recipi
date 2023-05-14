@@ -44,7 +44,7 @@ const getAuthHeaders = () => {
 
 export const RecipeForm: React.FC<RecipeFormProps> = ({
   isNew = true,
-  initialValues = { title: "", description: "", category: "", easiness: 1 },
+  initialValues = { title: "", description: "", category: "和食", easiness: 1 },
 }) => {
   //ステート
   const [title, setTitle] = useState(initialValues.title);
@@ -97,11 +97,23 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
       </FormControl>
       <FormControl id="category" mt={4}>
         <FormLabel>カテゴリー</FormLabel>
-        <Input
-          type="text"
+        <Select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-        />
+        >
+          <option value="和食">和食</option>
+          <option value="洋食">洋食</option>
+          <option value="中華">中華</option>
+          <option value="麺類">麺類</option>
+          <option value="パン">パン</option>
+          <option value="揚げ物">揚げ物</option>
+          <option value="肉">肉</option>
+          <option value="魚">魚</option>
+          <option value="スイーツ">スイーツ</option>
+          <option value="お菓子">お菓子</option>
+          <option value="ヘルシー">ヘルシー</option>
+          <option value="その他">その他</option>
+        </Select>
       </FormControl>
       <FormControl id="easiness" mt={4}>
         <FormLabel>手軽さ (1-5)</FormLabel>
