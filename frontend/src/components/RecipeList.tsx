@@ -104,6 +104,10 @@ export const RecipeList: React.FC = () => {
             client: client,
             uid: uid,
           },
+          data: {
+            user_id: currentUser.id,
+            recipe_id: recipeId,
+          },
         });
         console.log("お気に入りから削除しました。")
       } else {
