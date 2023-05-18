@@ -13,6 +13,7 @@ import { CommonLayout } from './layouts/CommonLayout';
 //関数
 import { getCurrentUser } from './lib/api/auth';
 import { User } from "./types/UserType"
+import { Search } from './components/Search';
 
 // グローバルステート・関数
 export const AuthContext = createContext({} as {
@@ -66,6 +67,7 @@ const App = () => {
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/recipes/:id/edit" element={<RecipeForm />} />
           <Route path="/favorites" element={<FavoritesList />} />
+          <Route path="/rakutens" element={<Search />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>

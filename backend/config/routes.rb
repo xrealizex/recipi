@@ -18,4 +18,5 @@ Rails.application.routes.draw do
     end
   end
   get '/recipes/random', to: 'recipes#random'
+  resources :rakutens, only: [:index]
 end
