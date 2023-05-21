@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"
 //UI
-import { Box, Heading, FormControl, FormLabel, Input, Textarea, Button, Select, HStack } from "@chakra-ui/react";
+import { Box, Heading, FormControl, FormLabel, Input, Textarea, Button, Select, VStack } from "@chakra-ui/react";
 //関数
 import { AuthContext } from "../App";
 
@@ -128,15 +128,15 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
           <option value="5">5</option>
         </Select>
       </FormControl>
-      <HStack justifyContent="center" spacing={6} mt={8}>
-        <Button colorScheme="blue" type="submit">
-          {isNew ? "献立作成" : "献立更新"}
-        </Button>
-        <Button onClick={goBack} colorScheme="blue">
-          戻る
-        </Button>
-      </HStack>
     </Box>
+    <VStack mt={5} spacing={5} align="stretch">
+      <Button colorScheme="teal" type="submit">
+        {isNew ? "献立作成" : "献立更新"}
+        </Button>
+      <Button onClick={goBack} colorScheme="teal">
+        戻る
+      </Button>
+    </VStack>
   </Box>
   );
 };

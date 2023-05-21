@@ -17,9 +17,8 @@ class Recipe < ApplicationRecord
       'formatVersion' => 2
     }
     response = http_client.get(url, query)
-    p response
     if response.status == 200
-      JSON.parse(response.body)['result']
+      JSON.parse(response.body)['result']['small']
     else
       []
     end

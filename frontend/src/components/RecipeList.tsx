@@ -173,24 +173,24 @@ export const RecipeList: React.FC = () => {
             </VStack>
             <HStack justifyContent="space-between" mt={4}>
               <Link to={`/recipes/${recipe.id}`}>
-                <Button colorScheme="blue">詳細</Button>
+                <Button colorScheme="teal">詳細</Button>
               </Link>
               <Button colorScheme="orange" onClick={() => deleteRecipe(recipe.id)}>
                 削除
               </Button>
-              <IconButton aria-label="Add to favorites" icon={isFavorite(recipe.id) ? <StarIcon color="red.500"/> : <StarIcon color="gray.500"/>} onClick={() => handleFavorite(recipe.id)}/>
+              <IconButton aria-label="Add to favorites" icon={isFavorite(recipe.id) ? <StarIcon color="orange.500"/> : <StarIcon color="gray.500"/>} onClick={() => handleFavorite(recipe.id)}/>
             </HStack>
           </Box>
         ))}
       </VStack>
-      <HStack justifyContent="center" spacing={6} mt={8}>
+      <VStack mt={5} spacing={5} align="stretch">
         <Link to="/recipes/new">
-          <Button colorScheme="blue">献立作成</Button>
+          <Button colorScheme="teal" width="60%">献立作成</Button>
         </Link>
-        <Button onClick={goBack} colorScheme="blue">
-          戻る
+        <Button onClick={goBack} colorScheme="teal" width="60%">
+        戻る
         </Button>
-      </HStack>
+      </VStack>
     </Box>
   );
 };
