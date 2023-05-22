@@ -17,6 +17,9 @@ export const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const toast = useToast();
+  //定数
+  const GUEST_EMAIL = "guest@example.com";
+  const GUEST_PASSWORD = "password";
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

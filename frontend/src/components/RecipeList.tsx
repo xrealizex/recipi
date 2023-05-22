@@ -58,6 +58,7 @@ export const RecipeList: React.FC = () => {
       fetchAllRecipes();
     } catch (error) {
       console.log(error);
+      console.log(id)
     }
   };
 
@@ -183,14 +184,14 @@ export const RecipeList: React.FC = () => {
           </Box>
         ))}
       </VStack>
-      <VStack mt={5} spacing={5} align="stretch">
+      <HStack mt={5} spacing={5}>
         <Link to="/recipes/new">
-          <Button colorScheme="teal" width="60%">献立作成</Button>
+          <Button colorScheme="teal" width="100px">献立作成</Button>
         </Link>
-        <Button onClick={goBack} colorScheme="teal" width="60%">
-        戻る
+        <Button onClick={goBack} colorScheme="teal" width="100px">
+          戻る
         </Button>
-      </VStack>
+      </HStack>
     </Box>
   );
 };
