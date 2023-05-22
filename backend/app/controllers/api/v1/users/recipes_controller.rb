@@ -15,6 +15,7 @@ module Api
           if recipe.save
             render json: recipe, status: :created
           else
+            p recipe.errors
             render json: recipe.errors, status: :unprocessable_entity
           end
         end

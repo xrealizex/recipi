@@ -60,7 +60,8 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  const headers = getAuthHeaders();
+    const headers = getAuthHeaders();
+    console.log(headers)
 
   if (!currentUser) {
     return;
@@ -128,8 +129,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
           <option value="5">5</option>
         </Select>
       </FormControl>
-    </Box>
-    <VStack mt={5} spacing={5} align="stretch">
+      <VStack mt={5} spacing={5} align="stretch">
       <Button colorScheme="teal" type="submit">
         {isNew ? "献立作成" : "献立更新"}
         </Button>
@@ -137,6 +137,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({
         戻る
       </Button>
     </VStack>
+    </Box>
   </Box>
   );
 };

@@ -21,12 +21,8 @@ export const SignIn: React.FC = () => {
   const GUEST_EMAIL = "guest@example.com";
   const GUEST_PASSWORD = "password";
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>, params: SignInParams) => {
     e.preventDefault();
-    const params: SignInParams = {
-      email: email,
-      password: password
-    };
     try {
       const res = await signIn(params);
       if (res.status === 200) {
@@ -61,6 +57,14 @@ export const SignIn: React.FC = () => {
     }
   };
 
+  const handleGuestSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const guestParams: SignInParams = {
+      email: GUEST_EMAIL,
+      password: GUEST_PASSWORD
+    };
+    handleSubmit(e, guestParams);
+  };
+
   return (
     <Box maxW="400px" mx="auto" mt={10}>
       <VStack spacing={5}>
@@ -86,10 +90,17 @@ export const SignIn: React.FC = () => {
         <Button
           width="100%"
           colorScheme="teal"
-          onClick={handleSubmit}
+          onClick={(e) => handleSubmit(e, { email, password })}
           isDisabled={!email || !password}
         >
           ログイン
+        </Button>
+        <Button
+          width="100%"
+          colorScheme="teal"
+          onClick={handleGuestSubmit}
+        >
+          いますぐ始める
         </Button>
         <Text textAlign="center">
           アカウントをお持ちでなければ{" "}
