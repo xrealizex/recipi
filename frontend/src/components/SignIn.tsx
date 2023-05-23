@@ -21,6 +21,7 @@ export const SignIn: React.FC = () => {
   const GUEST_EMAIL = "guest@example.com";
   const GUEST_PASSWORD = "password";
 
+  //ログイン機能
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>, params: SignInParams) => {
     e.preventDefault();
     try {
@@ -57,6 +58,7 @@ export const SignIn: React.FC = () => {
     }
   };
 
+  //ゲストログイン機能
   const handleGuestSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const guestParams: SignInParams = {
       email: GUEST_EMAIL,

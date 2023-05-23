@@ -86,7 +86,7 @@ export const FavoritesList = () => {
         ))}
       </VStack>
       <HStack justifyContent="center" spacing={6} mt={8}>
-        <Button onClick={goBack} colorScheme="blue">
+        <Button onClick={goBack} colorScheme="teal">
           戻る
         </Button>
       </HStack>
