@@ -2,9 +2,9 @@ import applyCaseMiddleware from "axios-case-converter"
 import axios from "axios"
 
 const options = {
-  ignoreHeaders: true 
+  ignoreHeaders: true
 }
 
 export const client = applyCaseMiddleware(axios.create({
-  baseURL: "http://localhost:3010/api/v1"
+  baseURL: process.env.REACT_APP_API_URL
 }), options)
