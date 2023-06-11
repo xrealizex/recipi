@@ -13,13 +13,17 @@ services:
     ports:
       - "5432:5432"
   api:
-    build: ./backend/
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        RUBYGEMS_VERSION: "3.3.20"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3010 -b '0.0.0.0'"
     volumes:
       - ./backend:/backend
     environment:
       - RAILS_ENV=production
-      - DB_USERNAME=postgres
+      - DB_USERNAME=backend
       - DB_PASSWORD=admin
     ports:
       - "3010:3010"
