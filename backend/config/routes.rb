@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   get '/recipes/random', to: 'recipes#random'
   resources :rakutens, only: [:index]
   resource :health_check, only: [:show]
+  match '*path' => 'options_request#response_preflight_request', via: :options
 end
